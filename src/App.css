@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #fb9461;
 }
 
 .App-logo {
@@ -36,3 +37,33 @@
     transform: rotate(360deg);
   }
 }
+.color{
+  color: white;
+}
+
+.align{
+  margin-top: 100px;
+}
+.horizontal-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form-group label {
+  margin-right: 10px;
+  min-width: 80px;
+  color: black;
+}
+
+.form-group input {
+  padding: 5px;
+  font-size: 14px;
+}
+

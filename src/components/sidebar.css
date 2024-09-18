@@ -1,0 +1,21 @@
+.sidebar-open {
+  margin-left: 0; /* Adjust based on the sidebar width */
+  transition: margin-left 0.3s;
+}
+
+.sidebar-closed {
+  margin-left: 0;
+  transition: margin-left 0.3s;
+}
+
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  padding: 10px;
+  cursor: pointer;
+}
+.selected-row {
+  background-color: red; /* Light blue color */
+}

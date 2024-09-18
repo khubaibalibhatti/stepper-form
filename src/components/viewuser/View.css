@@ -1,0 +1,142 @@
+/* View.css */
+
+body {
+  font-family:"Roboto Slab serif";
+  background-color: #fff;
+}
+
+.layout-wrapper {
+  display: flex;
+}
+
+.menu-vertical {
+  background-color: #343a40;
+  color: #fff;
+  padding: 10px;
+  width: 230px;
+}
+
+.menu-inner .menu-item a {
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+/* .menu-inner .menu-item a:hover {
+  background-color: #495057;
+} */
+
+.layout-page {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 30px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  border-bottom:  solid #ddd;
+  background-color: #778899;
+  margin-left: 0px;
+  width: 150%;
+  position: relative;
+  position:sticky;
+
+  
+}
+.tab{
+  display: flex;
+  position:sticky;
+    gap: 40px;
+  justify-content: center;
+  border-bottom:  solid #ddd;
+  background-color: #778899;
+  width: 80%;
+  margin-left: 87px;
+
+
+
+}
+
+
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 10px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.tab-button.active {
+  border-color: #fff;
+  color: #fff;
+}
+
+.tab-button:hover {
+  color: #fff;
+}
+
+
+.card {
+  /* border: 1px solid #ddd; */
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 40px;
+  position: absolute;
+}
+.cards{
+  display: flex;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-left: 20px;
+  
+}
+
+.card-title {
+  font-weight: bold;
+  color: #333;
+  font-Family:"Roboto Slab serif"
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* View.css */
+
+@media (max-width: 768px) {
+  .menu-vertical {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .layout-page {
+    /* padding: 10px; */
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    width: 600%;
+    text-align: center;
+  }
+}

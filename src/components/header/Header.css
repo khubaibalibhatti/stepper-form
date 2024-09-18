@@ -1,0 +1,64 @@
+/* src/components/Header.css */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #F5F5F5;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the header stays on top of other content */
+  }
+  
+  .header-container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-img {
+    height: 65px;
+    margin-right: 10px;
+    margin-left: 30px;
+  }
+  
+  .logo-text {
+    color: gray;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navbar .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .navbar .nav-links a:hover {
+    text-decoration: underline;
+  }
+
+  /* src/components/Header.css or a specific CSS file for the layout */
+.navbar-nav-right .search-container {
+    flex-grow: 1; /* Makes the search container expand to fill available space */
+  }
+  
+  .navbar-nav-right .search-input {
+    width: 100%; /* Ensures the input field takes up the full width of its container */
+  }
+  
