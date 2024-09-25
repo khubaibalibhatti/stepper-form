@@ -11,7 +11,6 @@ import { showUser } from "../../formSlice";
 export const ViewPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { userdata } = useSelector((state) => state.form);
   const alldata = useSelector((state) => state.form.userdata);
   const location = useLocation(); // for getting query parameters
   const navigate = useNavigate();
@@ -23,6 +22,8 @@ export const ViewPage = () => {
   // Check if there's a 'tab' query parameter in the URL and set it as activeTab
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "personal";
+  const alert = queryParams.get("alert");
+
   const [activeTab, setActiveTab] = useState(initialTab);
 
   // Filter to get the specific user's data
@@ -39,6 +40,7 @@ export const ViewPage = () => {
   // Render user data in different tabs
   return (
     <div style={{ paddingTop: "80px" }}>
+      
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -84,6 +86,9 @@ export const ViewPage = () => {
           <div className="layout-page">
             <div className="container">
               <div className="container ">
+              {alert === "success" && (
+        <div className="alert alert-success">User data saved successfully!</div>
+      )}
                 <div className="layout-page2">
                   <table>
                     {/* Tab content */}

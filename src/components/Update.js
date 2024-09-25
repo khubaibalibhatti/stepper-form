@@ -13,6 +13,8 @@ export const Update = () => {
   const { id } = useParams();
   const alldata = useSelector((state) => state.form.userdata);
   const dispatch = useDispatch();
+  const [alertMessage, setAlertMessage] = useState(""); // Alert message state
+
   const { countries, cities, selectedCountry, selectedCity } = useSelector(
     (state) => state.form
   );
@@ -78,12 +80,15 @@ export const Update = () => {
     // Add query parameter to the URL
   };
 
-  const handleSave1 = (e) => {
+  const handleSave1 = (e, tab) => {
     if (updateData) {
-      // Dispatch your action here to save the updated data
       e.preventDefault();
-      dispatch(updateUser(updateData));
-      navigate(`/view/${id}?tab=skills`);
+      dispatch(updateUser(updateData)); // Dispatch update action
+      
+      setAlertMessage("User data saved successfully!"); // Set alert message
+
+      // Navigate to the view page with query param to show alert
+      navigate(`/view/${id}?alert=success&tab=${tab}`);
     }
   };
   const handleSave2 = (e) => {

@@ -17,7 +17,7 @@ export default function Footer() {
           <Link to="/contact">Contact Us</Link>
         </div> */}
         <div className="footer-social">
-          <a href="https://github.com/khubaibalibhatti/Multi-step-form" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/khubaibalibhatti/stepper-form" target="_blank" rel="noopener noreferrer">
           <FaGithub />
           </a>
           <a href="https://www.linkedin.com/in/khubaib-ali-5a51232a1/" target="_blank" rel="noopener noreferrer">

@@ -19,3 +19,42 @@
 .selected-row {
   background-color: red; /* Light blue color */
 }
+
+/* Default Light Theme */
+.app-container.light {
+  background-color: white;
+  color: black;
+}
+
+/* Dark Theme */
+.app-container.dark {
+  background-color: #121212;
+  color: white;
+}
+
+.app-container.dark .layout-container {
+  background-color: #1e1e1e;
+}
+
+.app-container.dark table {
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.app-container.dark .navbar-nav input {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+.app-container.dark .alert {
+  background-color: #2b2b2b;
+  color: white;
+}
+
+.app-container.dark .btn-danger {
+  background-color: #ff4d4f;
+}
+
+/* Add more styles for other elements to match dark mode */
+
