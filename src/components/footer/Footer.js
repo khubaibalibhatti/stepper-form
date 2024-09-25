@@ -27,7 +27,6 @@ export default function Footer() {
          <FaInstagram/>
           </a>
         </div>
-        <p className="footer-text">© 2024, Made with ❤️ by Khubaib Ali</p>
       </div>
     </footer>
   );

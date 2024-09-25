@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 // Import checkmark icon from a library like FontAwesome or Material-UI
 import { FaCheckCircle } from "react-icons/fa";
-import "../formProgress/progress.css"
+import "../formProgress/Progress.css";
 
 const Progress = () => {
   const { step } = useSelector((state) => state.form);

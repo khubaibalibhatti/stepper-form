@@ -4,11 +4,10 @@ import MultiStepForm from "./components/MultiStepForm";
 import store from "./store";
 import Read from "./components/Read";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ViewPage } from "./components/viewuser/ViewPage";
-import { Update } from "./components/Update";
-import { Allusers } from "./components/Allusers";
-import { Skillsedit } from "./components/Skillsedit";
-import { Addressedit } from "./components/Addressedit";
+import { ViewPage } from "./components/ViewPage/ViewPage";
+import { Update } from "./editform/Update";
+import { Skillsedit } from "./editform/Skillsedit";
+import { Addressedit } from "./editform/Addressedit";
 function App() {
   return (
     <div>
@@ -17,7 +16,6 @@ function App() {
           <Routes>
             <Route path="/home" element={<MultiStepForm />} />
             <Route path="/" element={<Read />} />
-            <Route path="/allusers" element={<Allusers />} />
             <Route path="/view/:id" element={<ViewPage />} />
             <Route path="/skills/:id" element={<Skillsedit />} />
             <Route path="/address/:id" element={<Addressedit />} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../viewuser/View.css";
+import "../ViewPage/View.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import Header from "../header/Header";
@@ -11,6 +11,7 @@ import { showUser } from "../../formSlice";
 export const ViewPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { userdata } = useSelector((state) => state.form);
   const alldata = useSelector((state) => state.form.userdata);
   const location = useLocation(); // for getting query parameters
   const navigate = useNavigate();
@@ -22,8 +23,6 @@ export const ViewPage = () => {
   // Check if there's a 'tab' query parameter in the URL and set it as activeTab
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "personal";
-  const alert = queryParams.get("alert");
-
   const [activeTab, setActiveTab] = useState(initialTab);
 
   // Filter to get the specific user's data
@@ -39,8 +38,7 @@ export const ViewPage = () => {
 
   // Render user data in different tabs
   return (
-    <div style={{ paddingTop: "80px" }}>
-      
+    <div style={{ paddingTop: "50px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -83,51 +81,42 @@ export const ViewPage = () => {
               </li>
             </ul>
           </aside>
-          <div className="layout-page">
-            <div className="container">
-              <div className="container ">
-              {alert === "success" && (
-        <div className="alert alert-success">User data saved successfully!</div>
-      )}
-                <div className="layout-page2">
+          <div className="">
+            {/* Tab buttons */}
+            <div className="tabs text-center mt-5">
+              <button
+                className={`tab-button ${
+                  activeTab === "personal" ? "active" : ""
+                }`}
+                onClick={() => handleTabChange("personal")}
+              >
+                Personal Info
+              </button>
+              <button
+                className={`tab-button ${
+                  activeTab === "skills" ? "active" : ""
+                }`}
+                onClick={() => handleTabChange("skills")}
+              >
+                Skills & Experience
+              </button>
+              <button
+                className={`tab-button ${
+                  activeTab === "address" ? "active" : ""
+                }`}
+                onClick={() => handleTabChange("address")}
+              >
+                Address
+              </button>
+            </div>
+            <div className="">
+              <div className=" ">
+                <div className="">
                   <table>
                     {/* Tab content */}
-                    <div
-                      className="tab-content "
-                      style={{ marginLeft: "90px" }}
-                    >
-                      {/* Tab buttons */}
-                      <div className="tabs text-center mt-5">
-                        <button
-                          className={`tab-button ${
-                            activeTab === "personal" ? "active" : ""
-                          }`}
-                          onClick={() => handleTabChange("personal")}
-                        >
-                          Personal Info
-                        </button>
-                        <button
-                          className={`tab-button ${
-                            activeTab === "skills" ? "active" : ""
-                          }`}
-                          onClick={() => handleTabChange("skills")}
-                        >
-                          Skills & Experience
-                        </button>
-                        <button
-                          className={`tab-button ${
-                            activeTab === "address" ? "active" : ""
-                          }`}
-                          onClick={() => handleTabChange("address")}
-                        >
-                          Address
-                        </button>
-                      </div>
+                    <div className=" " style={{ marginLeft: "40px" }}>
                       {activeTab === "personal" && singleUser && (
-                        <div
-                          className="card mb-3 mx-auto"
-                          style={{ maxWidth: "900px" }}
-                        >
+                        <div className="card mb-3 mx-auto">
                           <div className="card-body w-50">
                             <table>
                               <tr>
@@ -136,7 +125,6 @@ export const ViewPage = () => {
                                     className="card-title"
                                     style={{
                                       color: "black",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     Firstname:
@@ -147,11 +135,21 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step1.firstname}
                                   </h5>
+                                </td>
+                                <td style={{ fontSize: "20px" }}>
+                                  <Link
+                                    to={`/edit/${id}?tab=personal`}
+                                    style={{
+                                      color: "#778899",
+                                      marginLeft: "250px",
+                                    }}
+                                  >
+                                    <FaEdit />
+                                  </Link>
                                 </td>
                               </tr>
                               <tr>
@@ -167,7 +165,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step1.lastname}
@@ -187,7 +184,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step1.email}
@@ -207,23 +203,12 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step1.phone}
                                   </h5>
                                 </td>
-                                <td style={{ fontSize: "20px" }}>
-                                  <Link
-                                    to={`/edit/${id}?tab=personal`}
-                                    style={{
-                                      color: "#778899",
-                                      marginLeft: "120px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
+                               
                               </tr>
                             </table>
                           </div>
@@ -231,10 +216,7 @@ export const ViewPage = () => {
                       )}
 
                       {activeTab === "skills" && singleUser && (
-                        <div
-                          className="card mb-3 mx-auto"
-                          style={{ maxWidth: "900px" }}
-                        >
+                        <div className="card mb-3 mx-auto">
                           <div className="card-body">
                             <table>
                               <tr>
@@ -250,11 +232,22 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step2.Skill}
                                   </h5>
+                                </td>
+                                <td>
+                                  <Link
+                                    to={`/skills/${id}?tab=skills`}
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#778899",
+                                      marginLeft: "320px",
+                                    }}
+                                  >
+                                    <FaEdit />
+                                  </Link>
                                 </td>
                               </tr>
                               <tr>
@@ -270,7 +263,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step2.Experience}
@@ -290,7 +282,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step2.Worke}
@@ -310,24 +301,12 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step2.Salary}
                                   </h5>
                                 </td>
-                                <td>
-                                  <Link
-                                    to={`/skills/${id}?tab=skills`}
-                                    style={{
-                                      fontSize: "20px",
-                                      color: "#778899",
-                                      marginLeft: "180px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
+                                
                               </tr>
                             </table>
                           </div>
@@ -354,11 +333,22 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step3.country}
                                   </h5>
+                                </td>
+                                <td>
+                                  <Link
+                                    to={`/address/${id}?tab=address`}
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#778899",
+                                      marginLeft: "388px",
+                                    }}
+                                  >
+                                    <FaEdit />
+                                  </Link>
                                 </td>
                               </tr>
                               <tr>
@@ -374,7 +364,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step3.city}
@@ -394,7 +383,6 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step3.zip_code}
@@ -414,24 +402,12 @@ export const ViewPage = () => {
                                   <h5
                                     style={{
                                       marginLeft: "80px",
-                                      fontFamily: "Roboto Slab serif",
                                     }}
                                   >
                                     {singleUser[0].step3.street}
                                   </h5>
                                 </td>
-                                <td>
-                                  <Link
-                                    to={`/address/${id}?tab=address`}
-                                    style={{
-                                      fontSize: "20px",
-                                      color: "#778899",
-                                      marginLeft: "250px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
+                               
                               </tr>
                             </table>
                           </div>

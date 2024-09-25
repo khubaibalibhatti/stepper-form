@@ -1,38 +1,4 @@
-/* View.css */
 
-body {
-  font-family:"Roboto Slab serif";
-  background-color: #fff;
-}
-
-.layout-wrapper {
-  display: flex;
-}
-
-.menu-vertical {
-  background-color: #343a40;
-  color: #fff;
-  padding: 10px;
-  width: 230px;
-}
-
-.menu-inner .menu-item a {
-  color: #ffffff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  margin: 5px 0;
-}
-
-/* .menu-inner .menu-item a:hover {
-  background-color: #495057;
-} */
-
-.layout-page {
-  flex: 1;
-  background-color: #ffffff;
-  padding: 30px;
-}
 
 .tabs {
   display: flex;
@@ -40,16 +6,15 @@ body {
   gap: 40px;
   border-bottom:  solid #ddd;
   background-color: #778899;
-  margin-left: 0px;
-  width: 150%;
+  margin-right:600px;
+  margin-left: 40px;
+  width: 90%;
   position: relative;
-  position:sticky;
 
   
 }
 .tab{
   display: flex;
-  position:sticky;
     gap: 40px;
   justify-content: center;
   border-bottom:  solid #ddd;
@@ -75,20 +40,23 @@ body {
 
 .tab-button.active {
   border-color: #fff;
-  color: #fff;
-}
+background-color: #fff;}
 
 .tab-button:hover {
-  color: #fff;
+  color: #0c0c0c;
 }
 
-
+label{
+  color: #0c0c0c;
+  font-size: 1rem;
+}
 .card {
   /* border: 1px solid #ddd; */
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  padding: 40px;
+  padding: 60px;
+  width: 73.5%;
   position: absolute;
 }
 .cards{
@@ -103,7 +71,6 @@ body {
 .card-title {
   font-weight: bold;
   color: #333;
-  font-Family:"Roboto Slab serif"
 }
 
 .btn-primary {
@@ -140,3 +107,51 @@ body {
     text-align: center;
   }
 }
+
+
+  .sidebar-open {
+    margin-left: 0; /* Adjust based on the sidebar width */
+    transition: margin-left 0.3s;
+  }
+  
+  .sidebar-closed {
+    margin-left: 0px;
+    transition: margin-left 0.3s;
+   
+  }
+  .delete-button {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: fixed; /* Adjust this based on your layout */
+    bottom: 10px; /* Position it as needed */
+    right: 20px; /* Position it as needed */
+  }
+  
+  .delete-button.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  
+  
+  .sidebar-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    padding: 10px;
+    cursor: pointer;
+    
+  }
+  .selected-row {
+    outline: 3px solid #f6f4ec;
+      box-shadow: 0 0 10px #f9f8f4; /* Light blue color */
+      background-color: lightgray; /* Highlight color for selected row */
+      transition: background-color 0.5s ease;
+  }
+  
+  
+  
+  
+  

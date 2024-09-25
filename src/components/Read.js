@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { showUser, deleteUser } from "../formSlice";
 import { Link } from "react-router-dom";
 import Header from "./header/Header";
-import Footer from "./footer/Footer";
-import {  FaHome, FaUser, FaUsers } from "react-icons/fa";
-import "../components/sidebar.css";
+import Footer from "./footer/Footer.js";
+import { FaHome, FaTrash, FaUser, FaUsers } from "react-icons/fa";
+import "../components/ViewPage/View.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {  BsLayoutSidebar } from "react-icons/bs"; // Add import for menu icon
+import { BsLayoutSidebar } from "react-icons/bs"; // Add import for menu icon
 
 export default function Read() {
   const dispatch = useDispatch();
@@ -24,7 +24,6 @@ export default function Read() {
   const [deleteId, setDeleteId] = useState(null);
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  
 
   useEffect(() => {
     dispatch(showUser());
@@ -116,6 +115,8 @@ export default function Read() {
 
   const cancelDelete = () => {
     setShowModal(false); // Hide the modal
+    // setSelectedUsers([]); // Clear selected users when canceling
+
   };
 
   useEffect(() => {
@@ -129,7 +130,7 @@ export default function Read() {
   }, [showAlert]);
 
   return (
-    <div style={{ paddingTop: "80px" }}>
+    <div style={{ paddingTop: "50px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div
@@ -148,8 +149,8 @@ export default function Read() {
             <ul className="menu-inner mt-1">
               <li className="menu-item ">
                 <a href="" className="menu-link">
-               <FaHome/>
-                  <div style={{marginLeft:"15px"}}>Dashboard</div>
+                  <FaHome />
+                  <div style={{ marginLeft: "15px" }}>Dashboard</div>
                 </a>
               </li>
               <li className="menu-item">
@@ -173,22 +174,25 @@ export default function Read() {
             </ul>
           </aside>
           <div className="layout-page">
-            <a style={{marginTop:"60px",marginLeft:"170px",color:"black"}}
+            {/* <a style={{marginTop:"60px",marginLeft:"170px",color:"black"}}
               className="sidebar-toggle-btn" // Add a class for styling the button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)} // Toggle sidebar
             >
               <BsLayoutSidebar  />
-            </a>
+            </a> */}
 
             {/* The rest of your content */}
             <div
               className="navbar-nav-right align-items-center mt-3"
               id="navbar-collapse"
-              style={{ marginLeft: "560px", width: "300px" }}
+              style={{ marginRight: "150px", width: "250px" }}
             >
               {/* search.filter  */}
-              <div className="navbar-nav align-items-center">
-                <div className="nav-item align-items-center ">
+              <div className="row">
+                <div
+                  className="nav-item align-items-center col-10 "
+                  style={{ marginLeft: "30px" }}
+                >
                   <input
                     type="search"
                     placeholder="Search..."
@@ -214,12 +218,11 @@ export default function Read() {
                   ></button>
                 </div>
               )}
-              <table className="table mt-3 border">
+              <table className="table mt-3 border w-110">
                 <thead>
                   <tr
                     style={{
                       color: "black",
-                      fontFamily: " Arial, Helvetica, sans-serif",
                     }}
                   >
                     <td>
@@ -238,28 +241,32 @@ export default function Read() {
                       />
                     </td>
                     <td>#</td>
-                    <td onClick={() => handleSort("firstname")}>
+                    <td
+                      onClick={() => handleSort("firstname")}
+                      style={{ cursor: "pointer" }}
+                    >
                       FIRSTNAME
-                      {sortConfig.key === "firstname"
-                        ? sortConfig.direction === "ascending"
-                          ? " ▲"
-                          : " ▼"
-                        : null}
+                      {sortConfig.key === "firstname" && (
+                        <span>{sortConfig.direction === "ascending"}</span>
+                      )}
                     </td>
-                    <td onClick={() => handleSort("lastname")}>
+                    <td
+                      onClick={() => handleSort("lastname")}
+                      style={{ cursor: "pointer" }}
+                    >
                       LASTNAME
-                      {sortConfig.key === "lastname"
-                        ? sortConfig.direction === "ascending" ? " ▲"
-                          : " ▼"
-                        : null}
+                      {sortConfig.key === "lastname" && (
+                        <span>{sortConfig.direction === "ascending"}</span>
+                      )}
                     </td>
-                    <td onClick={() => handleSort("email")}>
+                    <td
+                      onClick={() => handleSort("email")}
+                      style={{ cursor: "pointer" }}
+                    >
                       EMAIL
-                      {sortConfig.key === "email"
-                        ? sortConfig.direction === "ascending"
-                          ? " ▲"
-                          : " ▼"
-                        : null}
+                      {sortConfig.key === "email" && (
+                        <span>{sortConfig.direction === "ascending"}</span>
+                      )}
                     </td>
                     <td>PHONE</td>
                     <td>COUNTRY</td>
@@ -290,13 +297,14 @@ export default function Read() {
                     })
                     .map((eachData) => (
                       <tbody
-                      
                         className={`textb ${
                           selectedUsers.includes(eachData.id)
                             ? "selected-row"
                             : ""
                         }`}
-                        style={{ color: "black" ,fontFamily:"Roboto Slab serif"}}
+                        style={{
+                          color: "black",
+                        }}
                         key={eachData.id}
                       >
                         <tr>
@@ -355,7 +363,7 @@ export default function Read() {
                                 onClick={() => handleDeleteClick(eachData.id)}
                                 style={{ color: "#778899" }}
                               >
-                                <i className="bx bx-trash me-1"></i>
+                                <FaTrash/>
                               </Link>
                             </div>
                           </td>
@@ -412,26 +420,26 @@ export default function Read() {
                   </li>
                 </ul>
               </nav>
-              {/* Conditionally render the Delete Selected button */}
-              {selectedUsers.length > 0 && (
+            </div>
+             {/* Conditionally render the Delete Selected button */}
+              <div className={`delete-button ${selectedUsers.length > 0 ? "show" : ""}`}>
+             {selectedUsers.length > 0 && (
                 <Button
                   variant="danger"
                   style={{
                     width: "150px",
-                   marginTop:"70px",
-                    marginRight: "90px",
                   }}
                   onClick={() => handleDeleteClick()}
                 >
                   Delete Selected
                 </Button>
               )}
-            </div>
+              </div>
             {/* Modal for delete confirmation */}
             <Modal
               show={showModal}
               onHide={cancelDelete}
-              style={{ marginTop: "100px", width: "30%", marginLeft: "500px" }}
+              style={{ marginTop: "100px", width: "40%", marginLeft: "450px" }}
             >
               <Modal.Header closeButton>
                 <Modal.Title>Confirm Deletion</Modal.Title>
@@ -473,10 +481,6 @@ export default function Read() {
                 </Button>
               </Modal.Footer>
             </Modal>
-
-            <div className="content-wrapper">
-              <div className="content-backdrop fade"></div>
-            </div>
           </div>
         </div>
       </div>
