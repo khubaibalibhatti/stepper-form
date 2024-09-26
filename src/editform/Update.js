@@ -89,9 +89,16 @@ export const Update = () => {
   // Updated validate function
   const validate = () => {
     let errors = {};
-    // step1 validation
-    if (!updateData?.step1?.firstname)
-      errors.firstname = "First Name is required";
+    // First Name Validation - only alphabetic characters
+    if (!updateData?.step1?.firstname) {
+      errors.firstname = "Please enter your first name";
+    } else if (!/^[A-Za-z]+$/.test(updateData?.step1?.firstname)) {
+      errors.firstname = "Please only enter alphabetical characters";
+    }
+    if (!updateData?.step1?.lastname) {
+    } else if (!/^[A-Za-z]+$/.test(updateData?.step1?.lastname)) {
+      errors.lastname = "Please only enter alphabetical characters";
+    }
     // Email Validation
     if (!updateData?.step1?.email) {
       errors.email = "Email is required";
@@ -105,7 +112,21 @@ export const Update = () => {
       errors.phone = "Phone number must be 11 digits";
     }
     // step2 validation
-    if (!updateData?.step2?.Skill) errors.Skill = "Phone is required";
+    if (
+      !updateData?.step2.Skill ||
+      updateData?.step2.Skill === "Select Skill" ||
+      updateData?.step2.Skill === "Not yet Defined"
+    ) {
+      errors.Skill = "Please select a valid Skill option";
+    }
+    // step3 validation
+    if (
+      !updateData?.step3.country ||
+      updateData?.step3.country === "Select Skill" ||
+      updateData?.step3.country === "Not yet Defined"
+    ) {
+      errors.country = "Please select a country ";
+    }
 
     dispatch(setErrors(errors)); // Dispatch errors to Redux
 
@@ -131,8 +152,8 @@ export const Update = () => {
   };
 
   const handleSave3 = (e) => {
-    if (updateData) {
-      e.preventDefault();
+    e.preventDefault();
+    if (validate()) {
       dispatch(updateUser(updateData));
       navigate(`/view/${id}?tab=address&success=User updated successfully`);
     }
@@ -143,7 +164,7 @@ export const Update = () => {
 
   // Render user data in different tabs
   return (
-    <div style={{ paddingTop: "50px" }}>
+    <div style={{ paddingTop: "40px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -155,7 +176,7 @@ export const Update = () => {
 
             <ul className="menu-inner py-1">
               <li className="menu-item ">
-                <a className="menu-link">
+                <a href="" className="menu-link">
                   <FaHome />
                   <div style={{ marginLeft: "15px" }}>Dashboard</div>
                 </a>
@@ -218,7 +239,7 @@ export const Update = () => {
               <div className=" ">
                 <div className="">
                   {/* Tab content */}
-                  <div className=" " style={{ marginLeft: "42px" }}>
+                  <div className=" " style={{ marginLeft: "45px" }}>
                     {activeTab === "personal" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
@@ -268,9 +289,23 @@ export const Update = () => {
                                   value={updateData?.step1?.lastname || ""}
                                   onChange={newData}
                                   className="form-control"
+                                  style={{
+                                    borderColor: errors.lastname ? "red" : "",
+                                  }}
                                 />
                               </div>
                             </div>
+                            {errors.lastname && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.lastname}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="email" className="col-sm-4 ">
@@ -368,6 +403,9 @@ export const Update = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.Skill ? "red" : "",
+                                  }}
                                   aria-label="Default select example"
                                   name="Skill"
                                   value={updateData?.step2?.Skill || ""}
@@ -387,6 +425,17 @@ export const Update = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.Skill && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.Skill}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="Experience" className="col-sm-4 ">
@@ -493,6 +542,9 @@ export const Update = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.country ? "red" : "",
+                                  }}
                                   name="country"
                                   value={updateData?.step3?.country || ""}
                                   onChange={handleCountryChange}
@@ -506,6 +558,17 @@ export const Update = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.country && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.country}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="city" className="col-sm-4 ">

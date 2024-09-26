@@ -7,7 +7,13 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaHome, FaUser, FaUsers } from "react-icons/fa";
-import { showUser, updateUser, setCity, setCountry, setErrors } from "../formSlice";
+import {
+  showUser,
+  updateUser,
+  setCity,
+  setCountry,
+  setErrors,
+} from "../formSlice";
 
 export const Skillsedit = () => {
   const { id } = useParams();
@@ -19,7 +25,6 @@ export const Skillsedit = () => {
     (state) => state.form
   );
   const errors = useSelector((state) => state.form.errors);
-
 
   const [updateData, setUpdateData] = useState();
 
@@ -86,8 +91,8 @@ export const Skillsedit = () => {
   useEffect(() => {
     dispatch(showUser());
   }, [dispatch]);
-   // Updated validate function
-   const validate = () => {
+  // Updated validate function
+  const validate = () => {
     let errors = {};
     // step1 validation
     if (!updateData?.step1?.firstname)
@@ -105,7 +110,21 @@ export const Skillsedit = () => {
       errors.phone = "Phone number must be 11 digits";
     }
     // step2 validation
-    if (!updateData?.step2?.Skill) errors.Skill = "skill is required";
+    if (
+      !updateData?.step2.Skill ||
+      updateData?.step2.Skill === "Select Skill" ||
+      updateData?.step2.Skill === "Not yet Defined"
+    ) {
+      errors.Skill = "Please select a valid Skill option.";
+    }
+    // step3 validation
+    if (
+      !updateData?.step3.country ||
+      updateData?.step3.country === "Select Skill" ||
+      updateData?.step3.country === "Not yet Defined"
+    ) {
+      errors.country = "Please select a country ";
+    }
 
     dispatch(setErrors(errors)); // Dispatch errors to Redux
 
@@ -113,22 +132,26 @@ export const Skillsedit = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSave1 = () => {
-    if (updateData) {
-      dispatch(updateUser(updateData));
-      navigate(`/view/${id}?tab=skills`); // Redirect to home after save
-    }
-  };
-  const handleSave2 = () => {
+  const handleSave1 = (e) => {
+    e.preventDefault();
     if (validate()) {
       dispatch(updateUser(updateData));
-      navigate(`/view/${id}`); // Redirect to home after save
+      navigate(`/view/${id}?success=User updated successfully`); // Redirect to home after save
     }
   };
-  const handleSave3 = () => {
-    if (updateData) {
+  const handleSave2 = (e) => {
+    e.preventDefault();
+    if (validate()) {
       dispatch(updateUser(updateData));
-      navigate(`/view/${id}?tab=address`); // Redirect to home after save
+      navigate(`/view/${id}?tab=skills&success=User updated successfully`);
+      // Redirect to home after save
+    }
+  };
+  const handleSave3 = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      dispatch(updateUser(updateData));
+      navigate(`/view/${id}?tab=address&success=User updated successfully`); // Redirect to home after save
     }
   };
 
@@ -137,7 +160,7 @@ export const Skillsedit = () => {
 
   // Render user data in different tabs
   return (
-    <div style={{ paddingTop: "50px" }}>
+    <div style={{ paddingTop: "40px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -149,7 +172,7 @@ export const Skillsedit = () => {
 
             <ul className="menu-inner py-1">
               <li className="menu-item ">
-                <a className="menu-link">
+                <a href="" className="menu-link">
                   <FaHome />
                   <div style={{ marginLeft: "15px" }}>Dashboard</div>
                 </a>
@@ -213,7 +236,7 @@ export const Skillsedit = () => {
                 <div className="">
                   {/* Tab content */}
                   <div className=" " style={{ marginLeft: "40px" }}>
-                  {activeTab === "personal" && updateData && (
+                    {activeTab === "personal" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
                           className="card-body"
@@ -362,6 +385,9 @@ export const Skillsedit = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.Skill ? "red" : "",
+                                  }}
                                   aria-label="Default select example"
                                   name="Skill"
                                   value={updateData?.step2?.Skill || ""}
@@ -381,6 +407,17 @@ export const Skillsedit = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.Skill && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.Skill}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="Experience" className="col-sm-4 ">
@@ -473,7 +510,6 @@ export const Skillsedit = () => {
                         </div>
                       </div>
                     )}
-
                     {activeTab === "address" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
@@ -488,6 +524,9 @@ export const Skillsedit = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.country ? "red" : "",
+                                  }}
                                   name="country"
                                   value={updateData?.step3?.country || ""}
                                   onChange={handleCountryChange}
@@ -501,6 +540,17 @@ export const Skillsedit = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.country && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.country}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="city" className="col-sm-4 ">
@@ -512,7 +562,6 @@ export const Skillsedit = () => {
                                   name="city"
                                   value={updateData?.step3?.city || ""}
                                   onChange={handleCityChange}
-                                  disabled={!selectedCountry}
                                 >
                                   <option>Select a city</option>
                                   {selectedCountry &&
@@ -559,7 +608,6 @@ export const Skillsedit = () => {
                         <div className="d-flex justify-content-between mt-4">
                           <Link to={`/view/${id}?tab=address`}>
                             <button
-                              type="button"
                               className="btn btn-gray"
                               style={{ borderRadius: "8px", color: "black" }}
                             >

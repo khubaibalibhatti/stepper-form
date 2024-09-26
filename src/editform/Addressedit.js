@@ -7,7 +7,13 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaHome, FaUser, FaUsers } from "react-icons/fa";
-import { showUser, updateUser, setCity, setCountry } from "../formSlice";
+import {
+  showUser,
+  updateUser,
+  setCity,
+  setCountry,
+  setErrors,
+} from "../formSlice";
 
 export const Addressedit = () => {
   const { id } = useParams();
@@ -16,6 +22,7 @@ export const Addressedit = () => {
   const { countries, cities, selectedCountry, selectedCity } = useSelector(
     (state) => state.form
   );
+  const errors = useSelector((state) => state.form.errors);
 
   const [updateData, setUpdateData] = useState();
   const navigate = useNavigate();
@@ -84,31 +91,27 @@ export const Addressedit = () => {
   };
 
   const handleSave1 = (e) => {
-    if (updateData) {
+    if (validate()) {
       e.preventDefault();
 
       dispatch(updateUser(updateData));
-      navigate(`/view/${id}?tab=address`);
-
+      navigate(`/view/${id}?tab=address&success=User updated successfully`);
       // Redirect to home after save
     }
   };
   const handleSave2 = (e) => {
-    if (updateData) {
+    if (validate()) {
       e.preventDefault();
-
       dispatch(updateUser(updateData));
-      navigate(`/view/${id}`);
-
-      // Redirect to home after save
+      navigate(`/view/${id}?success=User updated successfully`); // Redirect to home after save
     }
   };
   const handleSave3 = (e) => {
-    if (updateData) {
+    if (validate()) {
       e.preventDefault();
 
       dispatch(updateUser(updateData));
-      navigate(`/view/${id}?tab=skills`);
+      navigate(`/view/${id}?tab=skills&success=User updated successfully`);
 
       // Redirect to home after save
     }
@@ -120,9 +123,57 @@ export const Addressedit = () => {
   // State for managing active tab
   const [activeTab, setActiveTab] = useState("address");
 
+  // Updated validate function
+  const validate = () => {
+    let errors = {};
+    // First Name Validation - only alphabetic characters
+    if (!updateData?.step1?.firstname) {
+      errors.firstname = "Please enter your first name";
+    } else if (!/^[A-Za-z]+$/.test(updateData?.step1?.firstname)) {
+      errors.firstname = "Please only enter alphabetical characters";
+    }
+    if (!updateData?.step1?.lastname) {
+    } else if (!/^[A-Za-z]+$/.test(updateData?.step1?.lastname)) {
+      errors.lastname = "Please only enter alphabetical characters";
+    }
+    // Email Validation
+    if (!updateData?.step1?.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(updateData?.step1?.email)) {
+      errors.email = "Email is invalid";
+    }
+    // phone validation
+    if (!updateData?.step1?.phone) {
+      errors.phone = "number is required";
+    } else if (!/^\d{11}$/.test(updateData?.step1?.phone)) {
+      errors.phone = "Phone number must be 11 digits";
+    }
+    // step2 validation
+    if (
+      !updateData?.step2.Skill ||
+      updateData?.step2.Skill === "Select Skill" ||
+      updateData?.step2.Skill === "Not yet Defined"
+    ) {
+      errors.Skill = "Please select a valid Skill option";
+    }
+    // step3 validation
+    if (
+      !updateData?.step3.country ||
+      updateData?.step3.country === "Select Skill" ||
+      updateData?.step3.country === "Not yet Defined"
+    ) {
+      errors.country = "Please select a country ";
+    }
+
+    dispatch(setErrors(errors)); // Dispatch errors to Redux
+
+    // If no errors, return true, else false
+    return Object.keys(errors).length === 0;
+  };
+
   // Render user data in different tabs
   return (
-    <div style={{ paddingTop: "50px" }}>
+    <div style={{ paddingTop: "40px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -134,7 +185,7 @@ export const Addressedit = () => {
 
             <ul className="menu-inner py-1">
               <li className="menu-item ">
-                <a className="menu-link">
+                <a href="" className="menu-link">
                   <FaHome />
                   <div style={{ marginLeft: "15px" }}>Dashboard</div>
                 </a>
@@ -217,9 +268,23 @@ export const Addressedit = () => {
                                   value={updateData?.step1?.firstname || ""}
                                   onChange={newData}
                                   className="form-control"
+                                  style={{
+                                    borderColor: errors.firstname ? "red" : "",
+                                  }}
                                 />
                               </div>
                             </div>
+                            {errors.firstname && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.firstname}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="lastname" className="col-sm-4 ">
@@ -249,9 +314,23 @@ export const Addressedit = () => {
                                   value={updateData?.step1?.email || ""}
                                   onChange={newData}
                                   className="form-control"
+                                  style={{
+                                    borderColor: errors.email ? "red" : "",
+                                  }}
                                 />
                               </div>
                             </div>
+                            {errors.email && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.email}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="phone" className="col-sm-4 ">
@@ -265,9 +344,23 @@ export const Addressedit = () => {
                                   value={updateData?.step1?.phone || ""}
                                   onChange={newData}
                                   className="form-control"
+                                  style={{
+                                    borderColor: errors.email ? "red" : "",
+                                  }}
                                 />
                               </div>
                             </div>
+                            {errors.phone && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.phone}
+                              </p>
+                            )}
                           </form>
                         </div>
                         <div className="d-flex justify-content-between mt-4">
@@ -305,6 +398,9 @@ export const Addressedit = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.Skill ? "red" : "",
+                                  }}
                                   aria-label="Default select example"
                                   name="Skill"
                                   value={updateData?.step2?.Skill || ""}
@@ -324,6 +420,17 @@ export const Addressedit = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.Skill && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.Skill}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="Experience" className="col-sm-4 ">
@@ -416,7 +523,6 @@ export const Addressedit = () => {
                         </div>
                       </div>
                     )}
-
                     {activeTab === "address" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
@@ -431,6 +537,9 @@ export const Addressedit = () => {
                               <div className="col-sm-6">
                                 <select
                                   className="form-select"
+                                  style={{
+                                    borderColor: errors.country ? "red" : "",
+                                  }}
                                   name="country"
                                   value={updateData?.step3?.country || ""}
                                   onChange={handleCountryChange}
@@ -444,6 +553,17 @@ export const Addressedit = () => {
                                 </select>
                               </div>
                             </div>
+                            {errors.country && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  marginLeft: "200px", // Adjust alignment
+                                  marginTop: "5px",
+                                }}
+                              >
+                                {errors.country}
+                              </p>
+                            )}
 
                             <div className="form-group row mt-3">
                               <label htmlFor="city" className="col-sm-4 ">
@@ -455,7 +575,6 @@ export const Addressedit = () => {
                                   name="city"
                                   value={updateData?.step3?.city || ""}
                                   onChange={handleCityChange}
-                                  disabled={!selectedCountry}
                                 >
                                   <option>Select a city</option>
                                   {selectedCountry &&
@@ -502,7 +621,6 @@ export const Addressedit = () => {
                         <div className="d-flex justify-content-between mt-4">
                           <Link to={`/view/${id}?tab=address`}>
                             <button
-                              type="button"
                               className="btn btn-gray"
                               style={{ borderRadius: "8px", color: "black" }}
                             >
