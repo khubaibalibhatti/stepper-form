@@ -65,8 +65,8 @@ export const ViewPage = () => {
           >
             {/* Sidebar and Navigation */}
             <ul className="menu-inner py-1">
-              <li className="menu-item ">
-                <a className="menu-link">
+            <li className="menu-item ">
+                <a href="" className="menu-link">
                   <FaHome />
                   <div style={{ marginLeft: "15px" }}>Dashboard</div>
                 </a>
@@ -97,7 +97,7 @@ export const ViewPage = () => {
               </li>
             </ul>
           </aside>
-          <div className="">
+          <div className="mt-3">
             {alertMessage && (
               <div className="alert alert-success">{alertMessage}
               

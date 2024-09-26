@@ -26,8 +26,12 @@ const Step2 = () => {
 
   const validate = () => {
     let errors = {};
-    if (!data.Skill) errors.Skill = "Skill field is Requierd:";
-
+  
+    // Check if the selected skill is not the placeholder or "Not yet Defined"
+    if (!data.Skill || data.Skill === "Select Skill" || data.Skill === "Not yet Defined") {
+      errors.Skill = "Please select a valid Skill option";
+    }
+  
     dispatch(setErrors(errors));
     return Object.keys(errors).length === 0;
   };
@@ -123,7 +127,7 @@ const Step2 = () => {
                             value={data.Skill || ""}
                             onChange={handleChange}
                           >
-                            <option selected>Select Skill</option>
+                            <option >Select Skill</option>
                             <option value="Programming">Programming</option>
                             <option value="Communication">Communication</option>
                             <option value="Designing">Designing</option>
@@ -138,7 +142,7 @@ const Step2 = () => {
                           className=""
                           style={{
                             color: "red",
-                            marginLeft: "190px",
+                            marginLeft: "185px",
                             marginTop: "3px",
                           }}
                         >

@@ -22,14 +22,14 @@ const Step1 = () => {
     let errors = {};
      // First Name Validation - only alphabetic characters
   if (!data.firstname) {
-    errors.firstname = "First Name is required";
+    errors.firstname = "Please enter your first name";
   } else if (!/^[A-Za-z]+$/.test(data.firstname)) {
-    errors.firstname = "First Name must only contain alphabets";
+    errors.firstname = "Please only enter alphabetical characters";
   }
   if(!data.lastname){
 
   }else if (!/^[A-Za-z]+$/.test(data.lastname)) {
-    errors.lastname = "Last Name must only contain alphabets";
+    errors.lastname = "Please only enter alphabetical characters";
   }
     // Email Validation
     if (!data.email) {
@@ -134,7 +134,7 @@ const Step1 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter firstName"
+                            placeholder="Enter your Firstname"
                             type="text"
                             id="firstname"
                             value={data.firstname || ""}
@@ -151,7 +151,7 @@ const Step1 = () => {
                         <p
                           style={{
                             color: "red",
-                            marginLeft: "200px", // Adjust alignment
+                            marginLeft: "185px", // Adjust alignment
                             marginTop: "5px",
                           }}
                         >
@@ -164,13 +164,14 @@ const Step1 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter LastName"
+                            placeholder="Enter your LastName"
                             type="text"
                             id="lastname"
                             value={data.lastname || ""}
                             onChange={handleChange}
                             name="lastname"
                             className="form-control"
+                            style={{ borderColor: errors.lastname ? "red" : "" }}
                           />
                         </div>
                       </div>
@@ -178,7 +179,7 @@ const Step1 = () => {
                         <p
                           style={{
                             color: "red",
-                            marginLeft: "200px", // Adjust alignment
+                            marginLeft: "185px", // Adjust alignment
                             marginTop: "5px",
                           }}
                         >
@@ -192,7 +193,7 @@ const Step1 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter Email"
+                            placeholder="Enter your Email"
                             type="email"
                             id="email"
                             name="email"
@@ -207,7 +208,7 @@ const Step1 = () => {
                         <p
                           style={{
                             color: "red",
-                            marginLeft: "200px", // Adjust alignment
+                            marginLeft: "185px", // Adjust alignment
                             marginTop: "5px",
                           }}
                         >
@@ -220,7 +221,7 @@ const Step1 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter Number"
+                            placeholder="Enter your Number"
                             type="tel"
                             id="phone"
                             name="phone"
@@ -235,7 +236,7 @@ const Step1 = () => {
                         <p
                           style={{
                             color: "red",
-                            marginLeft: "200px", // Adjust alignment
+                            marginLeft: "185px", // Adjust alignment
                             marginTop: "5px",
                           }}
                         >

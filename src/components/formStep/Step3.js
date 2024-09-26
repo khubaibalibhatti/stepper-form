@@ -29,8 +29,12 @@ const Step3 = () => {
   // form validation start
   const validate = () => {
     let errors = {};
-    if (!data.country) errors.country = "country field is Requierd:";
-
+  
+    // Check if the selected skill is not the placeholder or "Not yet Defined"
+    if (!data.country || data.Skill === "Select Skill" || data.country === "Not yet Defined") {
+      errors.country = "Please select  country ";
+    }
+  
     dispatch(setErrors(errors));
     return Object.keys(errors).length === 0;
   };
@@ -151,7 +155,7 @@ const Step3 = () => {
                       {errors.country && (
                         <p
                           className=""
-                          style={{ color: "red", marginLeft: "200px" }}
+                          style={{ color: "red", marginLeft: "185px" }}
                         >
                           {" "}
                           {errors.country}{" "}
@@ -187,7 +191,7 @@ const Step3 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter Code"
+                            placeholder="Enter your Code"
                             type="text"
                             name="zip_code"
                             value={data.zip_code || ""}
@@ -203,7 +207,7 @@ const Step3 = () => {
                         </label>
                         <div className="col-sm-6">
                           <input
-                            placeholder="Enter Address"
+                            placeholder="Enter your Street Address"
                             type="text"
                             name="street"
                             value={data.street || ""}
