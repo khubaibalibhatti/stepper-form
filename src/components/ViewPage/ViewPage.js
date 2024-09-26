@@ -136,7 +136,7 @@ export const ViewPage = () => {
                 <div className="">
                   <table>
                     {/* Tab content */}
-                    <div className=" " style={{ marginLeft: "45px" }}>
+                    <div className=" " style={{ marginLeft: "49px" }}>
                       {activeTab === "personal" && singleUser && (
                         <div className="card mb-3 mx-auto"
                         

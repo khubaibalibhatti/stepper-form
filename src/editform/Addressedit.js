@@ -218,7 +218,7 @@ export const Addressedit = () => {
           </aside>
           <div className="">
             {/* Tab buttons */}
-            <div className="tabs text-center mt-5">
+            <div className="tabs text-center " style={{marginTop:"64px"}}>
               <button
                 className={`tab-button ${
                   activeTab === "personal" ? "active" : ""
@@ -248,7 +248,7 @@ export const Addressedit = () => {
               <div className=" ">
                 <div className="">
                   {/* Tab content */}
-                  <div className=" " style={{ marginLeft: "40px" }}>
+                  <div className=" " style={{ marginRight: "400px",marginLeft:"50px" }}>
                     {activeTab === "personal" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
