@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFormData, prevStep } from "../../formSlice";
+import { updateFormData, prevStep, showUser } from "../../formSlice";
 import { submitForm, setCity, setCountry, setErrors } from "../../formSlice";
 import { useNavigate } from "react-router-dom";
 import Progress from "../formProgress/Progress";
+import Footer from "../footer/Footer";
+import { FaCircleArrowLeft } from "react-icons/fa6";
+import { FaHome, FaUsers } from "react-icons/fa";
+import Header from "../header/Header";
 
 const Step3 = () => {
   const dispatch = useDispatch();
@@ -15,7 +19,12 @@ const Step3 = () => {
   const { countries, cities, selectedCountry } = useSelector(
     (state) => state.form
   );
-  
+  const alldata = useSelector((state) => state.form.userdata);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    dispatch(showUser());
+  }, []);
 
   // form validation start
   const validate = () => {
@@ -55,76 +64,110 @@ const Step3 = () => {
   };
 
   return (
-    <>
-      <section className=" gradient-custom ">
-        <div className="container py-5 h-50">
-          <div className="row justify-content-center align-items-center h-100">
-            <div className="col-12 col-lg-9 col-xl-7">
-              <Progress />
-              <div
-                className="card shadow-2-strong card-registration"
-                style={{
-                  borderRadius: "15px",
-                  backgroundColor: " #00246B",
-                  width: "600px",
-                  marginTop: "30px",
-                  marginLeft: "50px",
-                  position:"sticky"
-                }}
-              >
-                <form className="form-width " />
-                <div className="row">
+    <div style={{ paddingTop: "40px" }}>
+      <Header />
+      <div className="layout-wrapper layout-content-navbar">
+        <div
+          className={`layout-container ${
+            isSidebarOpen ? "sidebar-open" : "sidebar-closed"
+          }`}
+        >
+          {" "}
+          {/* Conditional class for sidebar */}
+          <aside
+            id="layout-menu"
+            className={`layout-menu menu-vertical menu bg-menu-theme ${
+              isSidebarOpen ? "" : "d-none"
+            }`} // Hide when closed
+          >
+            <ul className="menu-inner mt-1">
+              <li className="menu-item ">
+                <a href="" className="menu-link">
+                  <FaHome />
+                  <div style={{ marginLeft: "15px" }}>Dashboard</div>
+                </a>
+              </li>
+
+              <li className="menu-item">
+                <a href="/" className="menu-link" style={{ color: "white" }}>
+                  <FaUsers />
+                  <div style={{ marginLeft: "15px" }}>
+                    Total Users ({alldata && alldata.length})
+                  </div>
+                </a>
+              </li>
+              <li className="menu-item">
+                <a href="/" className="menu-link" style={{ color: "white" }}>
+                  <FaCircleArrowLeft />
+                  <div style={{ marginLeft: "15px" }}>Back Grid</div>
+                </a>
+              </li>
+            </ul>
+          </aside>
+          <section
+            className="gradient-custom"
+            style={{ alignItems: "center", marginLeft: "150px" }}
+          >
+            <div className="container  h-100">
+              <div className="row justify-content-center align-items-center h-100">
+                <div className="">
+                  <Progress />
                   <div
-                    className="col-md-8 "
-                    style={{ marginLeft: "80px" }}
+                    className="cards card-registration"
+                    style={{
+                      marginRight: "400px",
+                      borderRadius: "15px",
+                      backgroundColor: " #fff",
+                      boxShadow: "0 0 10px",
+                      width: "650px",
+                      height: "409px",
+                      position: "sticky",
+                      background: "lightgray",
+                      marginBottom: "60px",
+                    }}
                   >
-                    <table>
-                      <tr>
-                        <td>
-                          <h6 className="bold  mt-4 mb-3 lable lable3 color" style={{fontFamily:"Roboto Slab serif"}}>
-                            Country:
-                          </h6>
-                        </td>
-                        <td>
+                    <form style={{ marginLeft: "70px" }}>
+                      <div className="form-group row mt-4">
+                        <label htmlFor="country" className="col-sm-4 ">
+                          Country <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <div className="col-sm-6">
                           <select
-                            class="form-select"
-                            aria-label="Default select example"
+                            className="form-select"
                             name="country"
+                            style={{ borderColor: errors.country ? "red" : "" }}
                             value={data.country || ""}
-                            style={{ marginLeft: "70px", marginRight: "59px" }}
                             onChange={handleCountryChange}
                           >
-                            <option value=""> select country</option>
+                            <option value="">Select country</option>
                             {countries.map((country) => (
                               <option value={country} key={country}>
                                 {country}
                               </option>
                             ))}
                           </select>
-                          {errors.country && (
-                            <p className="" style={{ color: "red" }}>
-                              {" "}
-                              {errors.country}{" "}
-                            </p>
-                          )}
-                        </td>
-                      </tr>
-                    </table>
-                    <table>
-                      <tr>
-                        <td>
-                          <h6 className="bold   lable lable3 mt-4 color" style={{fontFamily:"Roboto Slab serif"}}>
-                            City:
-                          </h6>
-                        </td>
-                        <td>
+                        </div>
+                      </div>
+                      {errors.country && (
+                        <p
+                          className=""
+                          style={{ color: "red", marginLeft: "200px" }}
+                        >
+                          {" "}
+                          {errors.country}{" "}
+                        </p>
+                      )}
+
+                      <div className="form-group row mt-4">
+                        <label htmlFor="city" className="col-sm-4 ">
+                          City
+                        </label>
+                        <div className="col-sm-6">
                           <select
-                            class="form-select"
-                            aria-label="Default select example"
+                            className="form-select"
                             name="city"
                             value={data.city || ""}
                             onChange={handleCityChange}
-                            style={{ marginLeft: "94px", marginRight: "45px" }}
                             disabled={!selectedCountry}
                           >
                             <option>Select a city</option>
@@ -135,98 +178,71 @@ const Step3 = () => {
                                 </option>
                               ))}
                           </select>
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div className="row">
-                  <div
-                    className="col-md-8 mb-4"
-                    style={{ marginLeft: "80px" }}
-                  >
-                    <div className="form-outline">
-                      <table>
-                        <tr>
-                          <td>
-                            <label
-                              className="form-label lable bold mt-4 mb-3 lable color"
-                              for="age"
-                            >
-                              Zip_Code:
-                            </label>
-                          </td>
-                          <td>
-                            <input
-                              name="zip_code"
-                              value={data.zip_code || ""}
-                              style={{ marginLeft: "60px"}}
-                              onChange={handleChange}
-                              type="text"
-                              id="age"
-                              className="form-control "
-                              placeholder="Enter zip-code"
-                            />
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div className="form-outline">
-                      <table>
-                        <tr>
-                          <td>
-                            <label
-                              className="form-label bold lable lable1 mt-4 color"
-                              for="age"
-                            >
-                              Street:
-                            </label>
-                          </td>
+                        </div>
+                      </div>
 
-                          <td>
-                            <input
-                              name="street"
-                              value={data.street || ""}
-                              onChange={handleChange}
-                              type="text"
-                              id="age"
-                              className="form-control  col-md-4"
-                              style={{ marginLeft: "70px",  }}
-                              placeholder="Enter Street"
-                            />
-                          </td>
-                        </tr>
-                      </table>
+                      <div className="form-group row mt-4">
+                        <label htmlFor="zip_code" className="col-sm-4 ">
+                          Zip Code
+                        </label>
+                        <div className="col-sm-6">
+                          <input
+                            placeholder="Enter Code"
+                            type="text"
+                            name="zip_code"
+                            value={data.zip_code || ""}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group row mt-4">
+                        <label htmlFor="street" className="col-sm-4 ">
+                          Street
+                        </label>
+                        <div className="col-sm-6">
+                          <input
+                            placeholder="Enter Address"
+                            type="text"
+                            name="street"
+                            value={data.street || ""}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                    </form>
+                    <div
+                      className="d-flex justify-content-between "
+                      style={{ marginTop: "60px" }}
+                    >
+                      <button
+                        type="button"
+                        className="btn btn-light"
+                        style={{ borderRadius: "8px", color: "black" }}
+                        onClick={handlePrev}
+                      >
+                        Previous
+                      </button>
+
+                      <button
+                        className="btn btn-success"
+                        style={{ borderRadius: "8px", marginRight: "20px" }}
+                        onClick={handleSubmit}
+                      >
+                        Submit
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div className="w3-bar">
-                  <button
-                    class="w3-button w3-left w3-light-grey  "
-                    style={{ marginLeft: "10px", borderRadius: "8px" }}
-                    onClick={handlePrev}
-                  >
-                    &laquo; Previous
-                  </button>
-
-                  <button
-                    className="w3-button w3-right w3-green  "
-                    style={{ marginRight: "10px", borderRadius: "8px" }}
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                </div>
-
-                <form />
               </div>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
-      {status === "loading" && <p>Loading...</p>}
-      {status === "failed" && <p>Error: {errors}</p>}
-    </>
+      </div>
+      <Footer />
+    </div>
   );
 };
 
