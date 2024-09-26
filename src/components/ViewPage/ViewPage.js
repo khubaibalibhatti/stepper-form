@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../ViewPage/View.css";
+import "./View.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import Header from "../header/Header";
@@ -11,7 +11,6 @@ import { showUser } from "../../formSlice";
 export const ViewPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { userdata } = useSelector((state) => state.form);
   const alldata = useSelector((state) => state.form.userdata);
   const location = useLocation(); // for getting query parameters
   const navigate = useNavigate();
@@ -23,7 +22,24 @@ export const ViewPage = () => {
   // Check if there's a 'tab' query parameter in the URL and set it as activeTab
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "personal";
+  const [alertMessage, setAlertMessage] = useState("");
   const [activeTab, setActiveTab] = useState(initialTab);
+
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const successMessage = params.get("success");
+
+    if (successMessage) {
+      setAlertMessage(successMessage);
+
+
+      // Optionally, clear the alert after a few seconds
+      setTimeout(() => {
+        setAlertMessage("");
+      }, 3000); // Hide after 5 seconds
+    }
+  }, [location.search]);
 
   // Filter to get the specific user's data
   const singleUser =
@@ -38,7 +54,7 @@ export const ViewPage = () => {
 
   // Render user data in different tabs
   return (
-    <div style={{ paddingTop: "50px" }}>
+    <div style={{ paddingTop: "40px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
@@ -57,7 +73,7 @@ export const ViewPage = () => {
               </li>
               <li className="menu-item">
                 <a
-                  href="/home"
+                  href="/form"
                   className="menu-link"
                   style={{ color: "white" }}
                 >
@@ -82,6 +98,12 @@ export const ViewPage = () => {
             </ul>
           </aside>
           <div className="">
+            {alertMessage && (
+              <div className="alert alert-success">{alertMessage}
+              
+              </div>
+            )}
+
             {/* Tab buttons */}
             <div className="tabs text-center mt-5">
               <button
@@ -114,10 +136,12 @@ export const ViewPage = () => {
                 <div className="">
                   <table>
                     {/* Tab content */}
-                    <div className=" " style={{ marginLeft: "40px" }}>
+                    <div className=" " style={{ marginLeft: "45px" }}>
                       {activeTab === "personal" && singleUser && (
-                        <div className="card mb-3 mx-auto">
-                          <div className="card-body w-50">
+                        <div className="card mb-3 mx-auto"
+                        
+                        >
+                          <div className="card-body ">
                             <table>
                               <tr>
                                 <td>
@@ -145,7 +169,7 @@ export const ViewPage = () => {
                                     to={`/edit/${id}?tab=personal`}
                                     style={{
                                       color: "#778899",
-                                      marginLeft: "250px",
+                                      marginLeft: "300px",
                                     }}
                                   >
                                     <FaEdit />
@@ -208,7 +232,6 @@ export const ViewPage = () => {
                                     {singleUser[0].step1.phone}
                                   </h5>
                                 </td>
-                               
                               </tr>
                             </table>
                           </div>
@@ -243,7 +266,7 @@ export const ViewPage = () => {
                                     style={{
                                       fontSize: "20px",
                                       color: "#778899",
-                                      marginLeft: "320px",
+                                      marginLeft: "374px",
                                     }}
                                   >
                                     <FaEdit />
@@ -306,7 +329,6 @@ export const ViewPage = () => {
                                     {singleUser[0].step2.Salary}
                                   </h5>
                                 </td>
-                                
                               </tr>
                             </table>
                           </div>
@@ -314,10 +336,7 @@ export const ViewPage = () => {
                       )}
 
                       {activeTab === "address" && singleUser && (
-                        <div
-                          className="card mb-3 mx-auto"
-                          style={{ maxWidth: "900px", position: "fiexd" }}
-                        >
+                        <div className="card mb-3 mx-auto">
                           <div className="card-body">
                             <table>
                               <tr>
@@ -344,7 +363,7 @@ export const ViewPage = () => {
                                     style={{
                                       fontSize: "20px",
                                       color: "#778899",
-                                      marginLeft: "388px",
+                                      marginLeft: "451px",
                                     }}
                                   >
                                     <FaEdit />
@@ -407,7 +426,7 @@ export const ViewPage = () => {
                                     {singleUser[0].step3.street}
                                   </h5>
                                 </td>
-                               
+                                
                               </tr>
                             </table>
                           </div>

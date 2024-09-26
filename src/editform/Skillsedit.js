@@ -156,7 +156,7 @@ export const Skillsedit = () => {
               </li>
               <li className="menu-item">
                 <a
-                  href="/home"
+                  href="/form"
                   className="menu-link"
                   style={{ color: "white" }}
                 >

@@ -116,7 +116,6 @@ export default function Read() {
   const cancelDelete = () => {
     setShowModal(false); // Hide the modal
     // setSelectedUsers([]); // Clear selected users when canceling
-
   };
 
   useEffect(() => {
@@ -130,7 +129,7 @@ export default function Read() {
   }, [showAlert]);
 
   return (
-    <div style={{ paddingTop: "50px" }}>
+    <div style={{ paddingTop: "40px" }}>
       <Header />
       <div className="layout-wrapper layout-content-navbar">
         <div
@@ -155,7 +154,7 @@ export default function Read() {
               </li>
               <li className="menu-item">
                 <a
-                  href="/home"
+                  href="/form"
                   className="menu-link"
                   style={{ color: "white" }}
                 >
@@ -173,7 +172,7 @@ export default function Read() {
               </li>
             </ul>
           </aside>
-          <div className="layout-page">
+          <div className="layout-page" >
             {/* <a style={{marginTop:"60px",marginLeft:"170px",color:"black"}}
               className="sidebar-toggle-btn" // Add a class for styling the button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)} // Toggle sidebar
@@ -183,22 +182,33 @@ export default function Read() {
 
             {/* The rest of your content */}
             <div
-              className="navbar-nav-right align-items-center mt-3"
+              className="navbar-nav-right align-items-center mt-4"
               id="navbar-collapse"
-              style={{ marginRight: "150px", width: "250px" }}
+              style={{ width: "380px" }}
             >
               {/* search.filter  */}
-              <div className="row">
-                <div
-                  className="nav-item align-items-center col-10 "
-                  style={{ marginLeft: "30px" }}
-                >
+              <div
+                className="row d-flex align-items-center"
+                style={{ marginLeft: "20px" }}
+              >
+                <div className="col-8">
                   <input
                     type="search"
                     placeholder="Search..."
-                    className="form-control bx bx-search "
+                    className="form-control bx bx-search"
                     onChange={(e) => setSearch(e.target.value)}
                   />
+                  
+                </div>
+                <div className="col-3">
+                  <Link to="/form">
+                  <button
+                    type="button" class="btn btn-primary btn-sm"
+                    style={{ marginLeft: "560px",width:"100px" }}
+                  >
+                    Add User
+                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -218,7 +228,7 @@ export default function Read() {
                   ></button>
                 </div>
               )}
-              <table className="table mt-3 border w-110">
+              <table className="table mt-3 border " style={{width:"100%",marginRight:"40px"}}>
                 <thead>
                   <tr
                     style={{
@@ -363,7 +373,7 @@ export default function Read() {
                                 onClick={() => handleDeleteClick(eachData.id)}
                                 style={{ color: "#778899" }}
                               >
-                                <FaTrash/>
+                                <FaTrash />
                               </Link>
                             </div>
                           </td>
@@ -421,9 +431,13 @@ export default function Read() {
                 </ul>
               </nav>
             </div>
-             {/* Conditionally render the Delete Selected button */}
-              <div className={`delete-button ${selectedUsers.length > 0 ? "show" : ""}`}>
-             {selectedUsers.length > 0 && (
+            {/* Conditionally render the Delete Selected button */}
+            <div
+              className={`delete-button ${
+                selectedUsers.length > 0 ? "show" : ""
+              }`}
+            >
+              {selectedUsers.length > 0 && (
                 <Button
                   variant="danger"
                   style={{
@@ -434,7 +448,7 @@ export default function Read() {
                   Delete Selected
                 </Button>
               )}
-              </div>
+            </div>
             {/* Modal for delete confirmation */}
             <Modal
               show={showModal}

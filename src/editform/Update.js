@@ -162,7 +162,7 @@ export const Update = () => {
               </li>
               <li className="menu-item">
                 <a
-                  href="/home"
+                  href="/form"
                   className="menu-link"
                   style={{ color: "white" }}
                 >
@@ -218,7 +218,7 @@ export const Update = () => {
               <div className=" ">
                 <div className="">
                   {/* Tab content */}
-                  <div className=" " style={{ marginLeft: "40px" }}>
+                  <div className=" " style={{ marginLeft: "42px" }}>
                     {activeTab === "personal" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div

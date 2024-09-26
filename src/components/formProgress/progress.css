@@ -3,10 +3,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
-margin-top: 30px;
-margin-bottom: 50px;
-margin-left: 45px;
+    width: 77%;
+    top: 10px;
+    margin-bottom: 50px;
+    margin-left: 10px;
     position: relative; /* Needed for the pseudo-element to position correctly */
   }
   
@@ -14,10 +14,12 @@ margin-left: 45px;
     content: "";
     position: absolute;
     top: 50%;
-    left: 5px;
+    left: 6px;
+    margin-left: 30px;
+    margin-right: 30px;
     right: 5px;
     height: 4px; /* Thickness of the line */
-    background-color: lightgray; /* Color of the line */
+    background-color: #e6e6e6; /* Color of the line */
     z-index: 0; /* Ensure the line is behind the step indicators */
   }
   
@@ -35,7 +37,7 @@ margin-left: 45px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: white;
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,23 +48,17 @@ margin-left: 45px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: green;
-    color: white;
+    background-color: #28a745;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
+    color: #fff;
   }
   
-  .step-number.active {
-    background-color: green;
-  }
+ 
   
-  .step-number:hover {
-    background-color: green; /* Darker shade of blue */
-    cursor: pointer;
-  }
+
   
   .step-item:first-child::before {
     content: none; /* Remove line before the first step */

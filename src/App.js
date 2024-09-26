@@ -14,7 +14,7 @@ function App() {
       <Provider store={store}>
         <Router>
           <Routes>
-            <Route path="/home" element={<MultiStepForm />} />
+            <Route path="/form" element={<MultiStepForm />} />
             <Route path="/" element={<Read />} />
             <Route path="/view/:id" element={<ViewPage />} />
             <Route path="/skills/:id" element={<Skillsedit />} />
