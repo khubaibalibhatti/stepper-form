@@ -23,6 +23,7 @@ export const ViewPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "personal";
   const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(true);
   const [activeTab, setActiveTab] = useState(initialTab);
 
 
@@ -32,14 +33,20 @@ export const ViewPage = () => {
 
     if (successMessage) {
       setAlertMessage(successMessage);
-
+      setShowAlert(true);
 
       // Optionally, clear the alert after a few seconds
-      setTimeout(() => {
-        setAlertMessage("");
-      }, 3000); // Hide after 5 seconds
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000); // Hide after 3 seconds
+
+      return () => clearTimeout(timer); // Clear timer on component unmount
     }
   }, [location.search]);
+
+  const handleClose = () => {
+    setShowAlert(false);
+  };
 
   // Filter to get the specific user's data
   const singleUser =
@@ -98,11 +105,18 @@ export const ViewPage = () => {
             </ul>
           </aside>
           <div className="mt-3">
-            {alertMessage && (
-              <div className="alert alert-success">{alertMessage}
-              
-              </div>
-            )}
+          {showAlert && (
+        <div className="alert alert-success d-flex justify-content-between align-items-center">
+          <span>{alertMessage}</span>
+          <button
+            type="button"
+            className="btn-close "
+            onClick={handleClose}
+            aria-label="Close"
+          >
+          </button>
+        </div>
+      )}
 
             {/* Tab buttons */}
             <div className="tabs text-center mt-5">

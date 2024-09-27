@@ -363,7 +363,7 @@ export const Skillsedit = () => {
                           <button
                             className="btn btn-success"
                             style={{ borderRadius: "8px" }}
-                            onClick={handleSave2}
+                            onClick={handleSave1}
                           >
                             Save
                           </button>
@@ -503,7 +503,7 @@ export const Skillsedit = () => {
                           <button
                             className="btn btn-success"
                             style={{ borderRadius: "8px" }}
-                            onClick={handleSave1}
+                            onClick={handleSave2}
                           >
                             Save
                           </button>

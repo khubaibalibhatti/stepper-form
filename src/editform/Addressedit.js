@@ -557,7 +557,7 @@ export const Addressedit = () => {
                               <p
                                 style={{
                                   color: "red",
-                                  marginLeft: "200px", // Adjust alignment
+                                  marginLeft: "210px", // Adjust alignment
                                   marginTop: "5px",
                                 }}
                               >
