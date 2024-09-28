@@ -175,7 +175,6 @@ export const Addressedit = () => {
   return (
     <div style={{ paddingTop: "40px" }}>
       <Header />
-      <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
           <aside
             id="layout-menu"
@@ -216,9 +215,9 @@ export const Addressedit = () => {
               </li>
             </ul>
           </aside>
-          <div className="">
+          <div className="main-content">
             {/* Tab buttons */}
-            <div className="tabs text-center " style={{marginTop:"64px"}}>
+            <div className="tabs text-center " style={{marginTop:"48px"}}>
               <button
                 className={`tab-button ${
                   activeTab === "personal" ? "active" : ""
@@ -244,9 +243,6 @@ export const Addressedit = () => {
                 Address
               </button>
             </div>
-            <div className="">
-              <div className=" ">
-                <div className="">
                   {/* Tab content */}
                   <div className=" " style={{ marginRight: "400px",marginLeft:"50px" }}>
                     {activeTab === "personal" && updateData && (
@@ -638,16 +634,8 @@ export const Addressedit = () => {
                       </div>
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="content-wrapper">
-              <div className="content-backdrop fade"></div>
-            </div>
           </div>
         </div>
-      </div>
       <Footer />
     </div>
   );

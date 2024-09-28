@@ -66,7 +66,6 @@ const Step3 = () => {
       navigate("/");
     }
   };
-
   return (
     <div style={{ paddingTop: "40px" }}>
       <Header />

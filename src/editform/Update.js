@@ -166,7 +166,6 @@ export const Update = () => {
   return (
     <div style={{ paddingTop: "40px" }}>
       <Header />
-      <div className="layout-wrapper layout-content-navbar">
         <div className="layout-container">
           <aside
             id="layout-menu"
@@ -207,9 +206,9 @@ export const Update = () => {
               </li>
             </ul>
           </aside>
-          <div className="">
+          <div className="main-content">
             {/* Tab buttons */}
-            <div className="tabs text-center " style={{marginTop:"64px"}}>
+            <div className="tabs text-center " style={{ marginTop: "48px" }}>
               <button
                 className={`tab-button ${
                   activeTab === "personal" ? "active" : ""
@@ -235,11 +234,11 @@ export const Update = () => {
                 Address
               </button>
             </div>
-            <div className="">
-              <div className=" ">
-                <div className="">
                   {/* Tab content */}
-                  <div className=" " style={{ marginRight: "400px",marginLeft:"50px" }}>
+                  <div
+                    className=" "
+                    style={{ marginRight: "400px", marginLeft: "50px" }}
+                  >
                     {activeTab === "personal" && updateData && (
                       <div className="card mb-3 mx-auto">
                         <div
@@ -643,12 +642,8 @@ export const Update = () => {
                       </div>
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
       <Footer />
     </div>
   );

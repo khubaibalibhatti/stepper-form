@@ -105,6 +105,43 @@
     text-align: center;
   }
 }
+/* Alert.css */
+.alert-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.alert-container {
+  position: fixed; /* Use fixed to center it in the viewport */
+  top: 15%; /* Center vertically */
+  left: 30%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset by half its own width and height */
+  width: 300px; /* Set a fixed width for the alert box */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+
+.main-content {
+  margin-top: 30px;
+}
+
 
 
 /* update aleart massege */

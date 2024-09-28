@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showUser, deleteUser } from "../formSlice";
 import { Link } from "react-router-dom";
 import Header from "./header/Header";
+import { CSSTransition } from "react-transition-group";
 import Footer from "./footer/Footer.js";
 import { FaHome, FaTrash, FaUser, FaUsers } from "react-icons/fa";
 import "../components/ViewPage/View.css";
@@ -28,6 +29,19 @@ export default function Read() {
   useEffect(() => {
     dispatch(showUser());
   }, [dispatch]);
+
+  // Filter records based on search input
+  const filteredRecords =
+    userdata?.filter((eachData) => {
+      const lowerCaseSearch = search.toLowerCase();
+      return (
+        eachData.step1.firstname.toLowerCase().includes(lowerCaseSearch) ||
+        eachData.step1.lastname.toLowerCase().includes(lowerCaseSearch) ||
+        eachData.step1.email.toLowerCase().includes(lowerCaseSearch) ||
+        eachData.step1.phone.toLowerCase().includes(lowerCaseSearch) ||
+        eachData.step3.country.toLowerCase().includes(lowerCaseSearch)
+      );
+    }) || [];
 
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
@@ -131,371 +145,371 @@ export default function Read() {
   return (
     <div style={{ paddingTop: "40px" }}>
       <Header />
-      <div className="layout-wrapper layout-content-navbar">
-        <div
-          className={`layout-container ${
-            isSidebarOpen ? "sidebar-open" : "sidebar-closed"
-          }`}
+      {/* Alert Section */}
+      <div className="alert-container">
+        <CSSTransition
+          in={showAlert}
+          timeout={300}
+          classNames="alert"
+          unmountOnExit
         >
-          {" "}
-          {/* Conditional class for sidebar */}
-          <aside
-            id="layout-menu"
-            className={`layout-menu menu-vertical menu bg-menu-theme ${
-              isSidebarOpen ? "" : "d-none"
-            }`} // Hide when closed
+          <div
+            className="alert alert-success alert-dismissible fade show"
+            role="alert"
           >
-            <ul className="menu-inner mt-1">
-              <li className="menu-item ">
-                <a href="" className="menu-link">
-                  <FaHome />
-                  <div style={{ marginLeft: "15px" }}>Dashboard</div>
-                </a>
-              </li>
-              <li className="menu-item">
-                <a
-                  href="/form"
-                  className="menu-link"
-                  style={{ color: "white" }}
-                >
-                  <FaUser />
-                  <div style={{ marginLeft: "15px" }}>Add User</div>
-                </a>
-              </li>
-              <li className="menu-item">
-                <a href="/" className="menu-link" style={{ color: "white" }}>
-                  <FaUsers />
-                  <div style={{ marginLeft: "15px" }}>
-                    Total Users ({alldata && alldata.length})
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </aside>
-          <div className="layout-page" >
-            {/* <a style={{marginTop:"60px",marginLeft:"170px",color:"black"}}
+            {alertMessage}
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={() => setShowAlert(false)}
+            ></button>
+          </div>
+        </CSSTransition>
+      </div>
+
+      <div
+        className={`layout-container ${
+          isSidebarOpen ? "sidebar-open" : "sidebar-closed"
+        }`}
+      >
+        {" "}
+        {/* Conditional class for sidebar */}
+        <aside
+          id="layout-menu"
+          className={`layout-menu menu-vertical menu bg-menu-theme ${
+            isSidebarOpen ? "" : "d-none"
+          }`} // Hide when closed
+        >
+          <ul className="menu-inner mt-1">
+            <li className="menu-item ">
+              <a href="" className="menu-link">
+                <FaHome />
+                <div style={{ marginLeft: "15px" }}>Dashboard</div>
+              </a>
+            </li>
+            <li className="menu-item">
+              <a href="/form" className="menu-link" style={{ color: "white" }}>
+                <FaUser />
+                <div style={{ marginLeft: "15px" }}>Add User</div>
+              </a>
+            </li>
+            <li className="menu-item">
+              <a href="/" className="menu-link" style={{ color: "white" }}>
+                <FaUsers />
+                <div style={{ marginLeft: "15px" }}>
+                  Total Users ({alldata && alldata.length})
+                </div>
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <div className="main-content">
+          {/* <a style={{marginTop:"60px",marginLeft:"170px",color:"black"}}
               className="sidebar-toggle-btn" // Add a class for styling the button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)} // Toggle sidebar
             >
               <BsLayoutSidebar  />
             </a> */}
 
-            {/* The rest of your content */}
+          {/* The rest of your content */}
+          <div
+            className="navbar-nav-right align-items-center mt-4"
+            style={{ width: "380px" }}
+          >
             <div
-              className="navbar-nav-right align-items-center mt-4"
-              id="navbar-collapse"
-              style={{ width: "380px" }}
+              className="row d-flex align-items-center"
+              style={{ marginLeft: "20px", marginTop: "50px" }}
             >
-              {/* search.filter  */}
-              <div
-                className="row d-flex align-items-center"
-                style={{ marginLeft: "20px" }}
-              >
-                <div className="col-8">
-                  <input
-                    type="search"
-                    placeholder="Search..."
-                    className="form-control bx bx-search"
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                  
-                </div>
-                <div className="col-3">
-                  <Link to="/form">
+              <div className="col-8">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  className="form-control"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <div className="col-3">
+                <Link to="/form">
                   <button
-                    type="button" class="btn btn-primary btn-sm"
-                    style={{ marginLeft: "560px",width:"100px" }}
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    style={{ width: "100px", marginLeft: "558px" }}
                   >
                     Add User
                   </button>
-                  </Link>
-                </div>
+                </Link>
               </div>
             </div>
+          </div>
+          {/* Display "No result found" message outside table */}
+          {filteredRecords.length === 0 && (
+            <div className="mt-3 text-center">
+              <p>Not result found</p>
+            </div>
+          )}
 
-            <div className="container">
-              {showAlert && (
-                <div
-                  className="alert alert-success alert-dismissible fade show"
-                  role="alert"
+          <div className=" mt-3">
+            <table
+              className="table mt-3 border "
+              style={{ width: "71%", marginRight: "400px", marginLeft: "30px" }}
+            >
+              <thead>
+                <tr
+                  style={{
+                    color: "black",
+                  }}
                 >
-                  {alertMessage}
-                  <button
-                    type="button"
-                    className="btn-close"
-                    aria-label="Close"
-                    onClick={() => setShowAlert(false)} // Close the alert
-                  ></button>
-                </div>
-              )}
-              <table className="table mt-3 border " style={{width:"100%",marginRight:"40px"}}>
-                <thead>
-                  <tr
-                    style={{
-                      color: "black",
-                    }}
+                  <td>
+                    <input
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedUsers(
+                            sortedRecords.map((record) => record.id)
+                          );
+                        } else {
+                          setSelectedUsers([]);
+                        }
+                      }}
+                      checked={selectedUsers.length === sortedRecords.length}
+                    />
+                  </td>
+                  <td>#</td>
+                  <td
+                    onClick={() => handleSort("firstname")}
+                    style={{ cursor: "pointer" }}
                   >
-                    <td>
-                      <input
-                        type="checkbox"
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedUsers(
-                              sortedRecords.map((record) => record.id)
-                            );
-                          } else {
-                            setSelectedUsers([]);
-                          }
-                        }}
-                        checked={selectedUsers.length === sortedRecords.length}
-                      />
-                    </td>
-                    <td>#</td>
-                    <td
-                      onClick={() => handleSort("firstname")}
-                      style={{ cursor: "pointer" }}
-                    >
-                      FIRSTNAME
-                      {sortConfig.key === "firstname" && (
-                        <span>{sortConfig.direction === "ascending"}</span>
-                      )}
-                    </td>
-                    <td
-                      onClick={() => handleSort("lastname")}
-                      style={{ cursor: "pointer" }}
-                    >
-                      LASTNAME
-                      {sortConfig.key === "lastname" && (
-                        <span>{sortConfig.direction === "ascending"}</span>
-                      )}
-                    </td>
-                    <td
-                      onClick={() => handleSort("email")}
-                      style={{ cursor: "pointer" }}
-                    >
-                      EMAIL
-                      {sortConfig.key === "email" && (
-                        <span>{sortConfig.direction === "ascending"}</span>
-                      )}
-                    </td>
-                    <td>PHONE</td>
-                    <td>COUNTRY</td>
-                    <td>ACTION</td>
-                  </tr>
-                </thead>
+                    FIRSTNAME
+                    {sortConfig.key === "firstname" && (
+                      <span>{sortConfig.direction === "ascending"}</span>
+                    )}
+                  </td>
+                  <td
+                    onClick={() => handleSort("lastname")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    LASTNAME
+                    {sortConfig.key === "lastname" && (
+                      <span>{sortConfig.direction === "ascending"}</span>
+                    )}
+                  </td>
+                  <td
+                    onClick={() => handleSort("email")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    EMAIL
+                    {sortConfig.key === "email" && (
+                      <span>{sortConfig.direction === "ascending"}</span>
+                    )}
+                  </td>
+                  <td>PHONE</td>
+                  <td>COUNTRY</td>
+                  <td>ACTION</td>
+                </tr>
+              </thead>
 
-                {sortedRecords.length > 0 ? (
-                  sortedRecords
-                    .filter((eachData) => {
-                      return search.toLowerCase() === ""
-                        ? eachData
-                        : eachData.step1.firstname
+              {sortedRecords.length > 0 ? (
+                sortedRecords
+                  .filter((eachData) => {
+                    return search.toLowerCase() === ""
+                      ? eachData
+                      : eachData.step1.firstname
+                          .toLowerCase()
+                          .includes(search) ||
+                          eachData.step1.lastname
                             .toLowerCase()
                             .includes(search) ||
-                            eachData.step1.lastname
-                              .toLowerCase()
-                              .includes(search) ||
-                            eachData.step1.email
-                              .toLowerCase()
-                              .includes(search) ||
-                            eachData.step1.phone
-                              .toLowerCase()
-                              .includes(search) ||
-                            eachData.step3.country
-                              .toLowerCase()
-                              .includes(search);
-                    })
-                    .map((eachData) => (
-                      <tbody
-                        className={`textb ${
-                          selectedUsers.includes(eachData.id)
-                            ? "selected-row"
-                            : ""
-                        }`}
-                        style={{
-                          color: "black",
-                        }}
-                        key={eachData.id}
-                      >
-                        <tr>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={selectedUsers.includes(eachData.id)}
-                              onChange={() => handleSelectUser(eachData.id)}
-                            />
-                          </td>
-                          <td>
-                            <Link
-                              to={`/view/${eachData.id}`}
-                              style={{ color: "black" }}
-                            >
-                              {eachData.id}
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/view/${eachData.id}`}
-                              style={{ color: "black" }}
-                            >
-                              {eachData.step1.firstname}
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/view/${eachData.id}`}
-                              style={{ color: "black" }}
-                            >
-                              {eachData.step1.lastname}
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/view/${eachData.id}`}
-                              style={{ color: "black" }}
-                            >
-                              {eachData.step1.email}
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/view/${eachData.id}`}
-                              style={{ color: "black" }}
-                            >
-                              {eachData.step1.phone}
-                            </Link>
-                          </td>
-                          <td>{eachData.step3.country}</td>
-                          <td>
-                            <div className="dropdown">
-                              <Link
-                                to="#"
-                                onClick={() => handleDeleteClick(eachData.id)}
-                                style={{ color: "#778899" }}
-                              >
-                                <FaTrash />
-                              </Link>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    ))
-                ) : (
-                  <tbody>
-                    <tr>
-                      <td colSpan="8" style={{ textAlign: "center" }}>
-                        No records found.
-                      </td>
-                    </tr>
-                  </tbody>
-                )}
-              </table>
-
-              {/* Pagination */}
-              <nav>
-                <ul className="pagination">
-                  <li
-                    className={`page-item ${
-                      currentPage === 1 ? "disabled" : ""
-                    }`}
-                  >
-                    <a href="#" className="page-link" onClick={prevPage}>
-                      Prev
-                    </a>
-                  </li>
-                  {numbers.map((n) => (
-                    <li
-                      key={n}
-                      className={`page-item ${
-                        currentPage === n ? "active" : ""
+                          eachData.step1.email.toLowerCase().includes(search) ||
+                          eachData.step1.phone.toLowerCase().includes(search) ||
+                          eachData.step3.country.toLowerCase().includes(search);
+                  })
+                  .map((eachData) => (
+                    <tbody
+                      className={`textb ${
+                        selectedUsers.includes(eachData.id)
+                          ? "selected-row"
+                          : ""
                       }`}
+                      style={{
+                        color: "black",
+                      }}
+                      key={eachData.id}
                     >
-                      <a
-                        href="#"
-                        className="page-link"
-                        onClick={() => changeCPage(n)}
-                      >
-                        {n}
-                      </a>
-                    </li>
-                  ))}
+                      <tr>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedUsers.includes(eachData.id)}
+                            onChange={() => handleSelectUser(eachData.id)}
+                          />
+                        </td>
+                        <td>
+                          <Link
+                            to={`/view/${eachData.id}`}
+                            style={{ color: "black" }}
+                          >
+                            {eachData.id}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/view/${eachData.id}`}
+                            style={{ color: "black" }}
+                          >
+                            {eachData.step1.firstname}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/view/${eachData.id}`}
+                            style={{ color: "black" }}
+                          >
+                            {eachData.step1.lastname}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/view/${eachData.id}`}
+                            style={{ color: "black" }}
+                          >
+                            {eachData.step1.email}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            to={`/view/${eachData.id}`}
+                            style={{ color: "black" }}
+                          >
+                            {eachData.step1.phone}
+                          </Link>
+                        </td>
+                        <td>{eachData.step3.country}</td>
+                        <td>
+                          <div className="dropdown">
+                            <Link
+                              to="#"
+                              onClick={() => handleDeleteClick(eachData.id)}
+                              style={{ color: "#778899" }}
+                            >
+                              <FaTrash />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))
+              ) : (
+                <tbody>
+                  <tr>
+                    <td colSpan="8" style={{ textAlign: "center" }}>
+                      Data Not found.
+                    </td>
+                  </tr>
+                </tbody>
+              )}
+            </table>
+
+            {/* Pagination */}
+            <nav style={{ marginLeft: "30px" }}>
+              <ul className="pagination">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <a href="#" className="page-link" onClick={prevPage}>
+                    Prev
+                  </a>
+                </li>
+                {numbers.map((n) => (
                   <li
-                    className={`page-item ${
-                      currentPage === totalPages ? "disabled" : ""
-                    }`}
+                    key={n}
+                    className={`page-item ${currentPage === n ? "active" : ""}`}
                   >
-                    <a href="#" className="page-link" onClick={nextPage}>
-                      Next
+                    <a
+                      href="#"
+                      className="page-link"
+                      onClick={() => changeCPage(n)}
+                    >
+                      {n}
                     </a>
                   </li>
-                </ul>
-              </nav>
-            </div>
-            {/* Conditionally render the Delete Selected button */}
-            <div
-              className={`delete-button ${
-                selectedUsers.length > 0 ? "show" : ""
-              }`}
-            >
-              {selectedUsers.length > 0 && (
-                <Button
-                  variant="danger"
-                  style={{
-                    width: "150px",
-                  }}
-                  onClick={() => handleDeleteClick()}
+                ))}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
                 >
-                  Delete Selected
-                </Button>
-              )}
-            </div>
-            {/* Modal for delete confirmation */}
-            <Modal
-              show={showModal}
-              onHide={cancelDelete}
-              style={{ marginTop: "100px", width: "40%", marginLeft: "450px" }}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Confirm Deletion</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>Are you sure you want to delete the following users?</p>
-                <ul>
-                  {deleteId ? (
-                    // Single user deletion
-                    <li>
-                      {
-                        userdata.find((user) => user.id === deleteId)?.step1
-                          .firstname
-                      }{" "}
-                      {
-                        userdata.find((user) => user.id === deleteId)?.step1
-                          .lastname
-                      }
-                    </li>
-                  ) : (
-                    // Multiple users deletion
-                    selectedUsers.map((userId) => {
-                      const user = userdata.find((u) => u.id === userId);
-                      return (
-                        <li key={userId}>
-                          {user?.step1.firstname} {user?.step1.lastname}
-                        </li>
-                      );
-                    })
-                  )}
-                </ul>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={cancelDelete}>
-                  Cancel
-                </Button>
-                <Button variant="danger" onClick={confirmDelete}>
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
+                  <a href="#" className="page-link" onClick={nextPage}>
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
+          {/* Conditionally render the Delete Selected button */}
+          <div
+            className={`delete-button ${
+              selectedUsers.length > 0 ? "show" : ""
+            }`}
+          >
+            {selectedUsers.length > 0 && (
+              <Button
+                variant="danger"
+                style={{
+                  width: "150px",
+                }}
+                onClick={() => handleDeleteClick()}
+              >
+                Delete Selected
+              </Button>
+            )}
+          </div>
+          {/* Modal for delete confirmation */}
+          <Modal
+            show={showModal}
+            onHide={cancelDelete}
+            style={{ marginTop: "100px", width: "40%", marginLeft: "450px" }}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Deletion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Are you sure you want to delete the following users?</p>
+              <ul>
+                {deleteId ? (
+                  // Single user deletion
+                  <li>
+                    {
+                      userdata.find((user) => user.id === deleteId)?.step1
+                        .firstname
+                    }{" "}
+                    {
+                      userdata.find((user) => user.id === deleteId)?.step1
+                        .lastname
+                    }
+                  </li>
+                ) : (
+                  // Multiple users deletion
+                  selectedUsers.map((userId) => {
+                    const user = userdata.find((u) => u.id === userId);
+                    return (
+                      <li key={userId}>
+                        {user?.step1.firstname} {user?.step1.lastname}
+                      </li>
+                    );
+                  })
+                )}
+              </ul>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={cancelDelete}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={confirmDelete}>
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       </div>
       <Footer />

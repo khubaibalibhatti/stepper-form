@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./View.css";
 import { useDispatch, useSelector } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
@@ -23,9 +24,8 @@ export const ViewPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get("tab") || "personal";
   const [alertMessage, setAlertMessage] = useState("");
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const [activeTab, setActiveTab] = useState(initialTab);
-
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -63,7 +63,28 @@ export const ViewPage = () => {
   return (
     <div style={{ paddingTop: "40px" }}>
       <Header />
-      <div className="layout-wrapper layout-content-navbar">
+       {/* Alert Section */}
+       <div className="alert-container" style={{marginLeft:"10px"}}>
+        <CSSTransition
+          in={showAlert}
+          timeout={300}
+          classNames="alert"
+          unmountOnExit
+        >
+          <div
+            className="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            {alertMessage}
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={handleClose}
+            ></button>
+          </div>
+        </CSSTransition>
+      </div>
         <div className="layout-container">
           <aside
             id="layout-menu"
@@ -72,7 +93,7 @@ export const ViewPage = () => {
           >
             {/* Sidebar and Navigation */}
             <ul className="menu-inner py-1">
-            <li className="menu-item ">
+              <li className="menu-item ">
                 <a href="" className="menu-link">
                   <FaHome />
                   <div style={{ marginLeft: "15px" }}>Dashboard</div>
@@ -104,19 +125,7 @@ export const ViewPage = () => {
               </li>
             </ul>
           </aside>
-          <div className="mt-3">
-          {showAlert && (
-        <div className="alert alert-success d-flex justify-content-between align-items-center">
-          <span>{alertMessage}</span>
-          <button
-            type="button"
-            className="btn-close "
-            onClick={handleClose}
-            aria-label="Close"
-          >
-          </button>
-        </div>
-      )}
+          <div className="main-content">
 
             {/* Tab buttons */}
             <div className="tabs text-center mt-5">
@@ -145,319 +154,306 @@ export const ViewPage = () => {
                 Address
               </button>
             </div>
-            <div className="">
-              <div className=" ">
-                <div className="">
-                  <table>
-                    {/* Tab content */}
-                    <div className=" " style={{ marginLeft: "49px" }}>
-                      {activeTab === "personal" && singleUser && (
-                        <div className="card mb-3 mx-auto"
-                        
-                        >
-                          <div className="card-body ">
-                            <table>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{
-                                      color: "black",
-                                    }}
-                                  >
-                                    Firstname:
-                                  </h5>
-                                </td>
 
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step1.firstname}
-                                  </h5>
-                                </td>
-                                <td style={{ fontSize: "20px" }}>
-                                  <Link
-                                    to={`/edit/${id}?tab=personal`}
-                                    style={{
-                                      color: "#778899",
-                                      marginLeft: "300px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Lastname:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step1.lastname}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Email:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step1.email}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Phone:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step1.phone}
-                                  </h5>
-                                </td>
-                              </tr>
-                            </table>
-                          </div>
-                        </div>
-                      )}
+              <table>
+                {/* Tab content */}
+                <div className=" " style={{ marginLeft: "49px" }}>
+                  {activeTab === "personal" && singleUser && (
+                    <div className="card mb-3 mx-auto">
+                      <div className="card-body ">
+                        <table>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{
+                                  color: "black",
+                                }}
+                              >
+                                Firstname:
+                              </h5>
+                            </td>
 
-                      {activeTab === "skills" && singleUser && (
-                        <div className="card mb-3 mx-auto">
-                          <div className="card-body">
-                            <table>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Skill:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step2.Skill}
-                                  </h5>
-                                </td>
-                                <td>
-                                  <Link
-                                    to={`/skills/${id}?tab=skills`}
-                                    style={{
-                                      fontSize: "20px",
-                                      color: "#778899",
-                                      marginLeft: "374px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Experience:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step2.Experience}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Work:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step2.Worke}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Salary:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step2.Salary}
-                                  </h5>
-                                </td>
-                              </tr>
-                            </table>
-                          </div>
-                        </div>
-                      )}
-
-                      {activeTab === "address" && singleUser && (
-                        <div className="card mb-3 mx-auto">
-                          <div className="card-body">
-                            <table>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Country:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step3.country}
-                                  </h5>
-                                </td>
-                                <td>
-                                  <Link
-                                    to={`/address/${id}?tab=address`}
-                                    style={{
-                                      fontSize: "20px",
-                                      color: "#778899",
-                                      marginLeft: "451px",
-                                    }}
-                                  >
-                                    <FaEdit />
-                                  </Link>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    City:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step3.city}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Zip_Code:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step3.zip_code}
-                                  </h5>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h5
-                                    className="card-title"
-                                    style={{ color: "black" }}
-                                  >
-                                    Street:
-                                  </h5>
-                                </td>
-                                <td>
-                                  <h5
-                                    style={{
-                                      marginLeft: "80px",
-                                    }}
-                                  >
-                                    {singleUser[0].step3.street}
-                                  </h5>
-                                </td>
-                                
-                              </tr>
-                            </table>
-                          </div>
-                        </div>
-                      )}
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step1.firstname}
+                              </h5>
+                            </td>
+                            <td style={{ fontSize: "20px" }}>
+                              <Link
+                                to={`/edit/${id}?tab=personal`}
+                                style={{
+                                  color: "#778899",
+                                  marginLeft: "300px",
+                                }}
+                              >
+                                <FaEdit />
+                              </Link>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Lastname:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step1.lastname}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Email:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step1.email}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Phone:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step1.phone}
+                              </h5>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
-                  </table>
-                </div>
-              </div>
-            </div>
+                  )}
 
-            <div className="content-wrapper">
-              <div className="content-backdrop fade"></div>
-            </div>
+                  {activeTab === "skills" && singleUser && (
+                    <div className="card mb-3 mx-auto">
+                      <div className="card-body">
+                        <table>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Skill:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step2.Skill}
+                              </h5>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/skills/${id}?tab=skills`}
+                                style={{
+                                  fontSize: "20px",
+                                  color: "#778899",
+                                  marginLeft: "374px",
+                                }}
+                              >
+                                <FaEdit />
+                              </Link>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Experience:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step2.Experience}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Work:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step2.Worke}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Salary:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step2.Salary}
+                              </h5>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "address" && singleUser && (
+                    <div className="card mb-3 mx-auto">
+                      <div className="card-body">
+                        <table>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Country:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step3.country}
+                              </h5>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/address/${id}?tab=address`}
+                                style={{
+                                  fontSize: "20px",
+                                  color: "#778899",
+                                  marginLeft: "451px",
+                                }}
+                              >
+                                <FaEdit />
+                              </Link>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                City:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step3.city}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Zip_Code:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step3.zip_code}
+                              </h5>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <h5
+                                className="card-title"
+                                style={{ color: "black" }}
+                              >
+                                Street:
+                              </h5>
+                            </td>
+                            <td>
+                              <h5
+                                style={{
+                                  marginLeft: "80px",
+                                }}
+                              >
+                                {singleUser[0].step3.street}
+                              </h5>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </table>
           </div>
         </div>
-      </div>
       <Footer />
     </div>
   );
